@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManLitByGreen : MonoBehaviour
-{
-    
+{                
     GameObject greenMan;
     GameObject greenManTwo;
     GameObject cameraDetector;
