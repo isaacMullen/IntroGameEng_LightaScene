@@ -7,6 +7,7 @@ TagManager:
   - SpawnGreenMan
   - DespawnGreenMan
   - GreenMan
+  - Trigger
   layers:
   - Default
   - TransparentFX
