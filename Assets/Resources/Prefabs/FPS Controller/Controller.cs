@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour
     public PlayableDirector playableDirector1; // Assign the Playable Director for Timeline 1
     public PlayableDirector playableDirector2; // Assign the Playable Director for Timeline 2
     public PlayableDirector playableDirector3; // Assign the Playable Director for Timeline 2
+    public PlayableDirector playableDirector4; // Assign the Playable Director for Timeline 2
 
     public static Controller Instance { get; protected set; }
 
@@ -67,6 +68,10 @@ public class Controller : MonoBehaviour
         if(other.name == "YawnTrigger")
         {
             playableDirector3.Play();
+        }
+        if(other.name == "RedRoomTrigger")
+        {
+            playableDirector4.Play();
         }
     }
 
