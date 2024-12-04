@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,7 +12,10 @@ using UnityEditor;
 
 public class Controller : MonoBehaviour
 {
-    
+    public PlayableDirector playableDirector1; // Assign the Playable Director for Timeline 1
+    public PlayableDirector playableDirector2; // Assign the Playable Director for Timeline 2
+    public PlayableDirector playableDirector3; // Assign the Playable Director for Timeline 2
+
     public static Controller Instance { get; protected set; }
 
     public Camera MainCamera;
@@ -40,7 +45,30 @@ public class Controller : MonoBehaviour
     float m_GroundedTimer;
     float m_SpeedAtJump = 0.0f;
 
-    
+    private bool playFirstTimeline = true;
+    bool isTeleported = false;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "ThunderTrigger")
+        {
+            // Trigger the appropriate Playable Director
+            if (playFirstTimeline)
+            {
+                playableDirector1.Play();
+                
+            }
+            playFirstTimeline = false;
+        }
+        if(other.name == "TeleportTrigger")
+        {
+            playableDirector2.Play();           
+        }
+        if(other.name == "YawnTrigger")
+        {
+            playableDirector3.Play();
+        }
+    }
 
     void Awake()
     {
@@ -66,6 +94,17 @@ public class Controller : MonoBehaviour
         m_HorizontalAngle = transform.localEulerAngles.y;
     }
 
+    public void StopMovement()
+    {
+        isTeleported = true;
+        Debug.Log(isTeleported);
+    }
+    public void StartMovement()
+    {
+        isTeleported = false;
+        Debug.Log(isTeleported);
+    }
+    
     void Update()
     {
         bool wasGrounded = m_Grounded;
@@ -122,7 +161,11 @@ public class Controller : MonoBehaviour
             move = move * usedSpeed * Time.deltaTime;
 
             move = transform.TransformDirection(move);
-            m_CharacterController.Move(move);
+            if(!isTeleported)
+            {
+                m_CharacterController.Move(move);
+            }
+            
 
             // Turn player
             float turnPlayer = Input.GetAxis("Mouse X") * MouseSensitivity;
